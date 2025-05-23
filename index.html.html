@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>EduFácil - Segurança Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function mostrarPagina(pagina) {
+            const total = 8;
+            for (let i = 0; i <= total; i++) {
+                const p = document.getElementById('pagina' + i);
+                if (p) p.style.display = 'none';
+            }
+            document.getElementById(pagina).style.display = 'block';
+        }
+
+        function toggleSenha() {
+            const input = document.getElementById("senha");
+            input.type = input.type === "password" ? "text" : "password";
+        }
+
+        function verificarSenha() {
+            const senha = document.getElementById('senha').value;
+            let criterios = 0;
+
+            if (senha.length >= 8) criterios += 20;
+            if (/[A-Z]/.test(senha)) criterios += 20;
+            if (/[a-z]/.test(senha)) criterios += 20;
+            if (/[0-9]/.test(senha)) criterios += 20;
+            if (/[!@#\$%\^&\*\(\)_\+\-=\[\]\{\};:'"\\|,.<>\/?]/.test(senha)) criterios += 20;
+
+            let resultado = document.getElementById("resultado");
+            resultado.style.marginTop = "20px";
+            resultado.innerHTML = "<strong>Resultado:</strong> Sua senha tem " + criterios + "% de segurança.";
+
+            if (criterios < 100) {
+                let dicas = "<ul>";
+                if (senha.length < 8) dicas += "<li>Pelo menos 8 caracteres</li>";
+                if (!/[A-Z]/.test(senha)) dicas += "<li>Adicione uma letra maiúscula</li>";
+                if (!/[a-z]/.test(senha)) dicas += "<li>Adicione uma letra minúscula</li>";
+                if (!/[0-9]/.test(senha)) dicas += "<li>Adicione um número</li>";
+                if (!/[!@#\$%\^&\*\(\)_\+\-=\[\]\{\};:'"\\|,.<>\/?]/.test(senha)) dicas += "<li>Adicione um símbolo especial</li>";
+                dicas += "</ul>";
+                resultado.innerHTML += "<p><strong>Dicas para melhorar:</strong></p>" + dicas;
+            } else {
+                resultado.innerHTML += "<p class='sucesso'>✅ Sua senha é 100% segura!</p>";
+            }
+        }
+
+        function gerarSenhas() {
+            const length = parseInt(document.getElementById('length').value);
+            const useUppercase = document.getElementById('uppercase').checked;
+            const useLowercase = document.getElementById('lowercase').checked;
+            const useNumbers = document.getElementById('numbers').checked;
+            const useSymbols = document.getElementById('symbols').checked;
+
+            const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+            const numbers = '0123456789';
+            const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+
+            let allChars = '';
+            if (useUppercase) allChars += uppercase;
+            if (useLowercase) allChars += lowercase;
+            if (useNumbers) allChars += numbers;
+            if (useSymbols) allChars += symbols;
+
+            if (allChars === '') {
+                alert('Selecione pelo menos um tipo de caractere.');
+                return;
+            }
+
+            const senhas = [];
+            for (let i = 0; i < 5; i++) {
+                let senha = '';
+                for (let j = 0; j < length; j++) {
+                    senha += allChars.charAt(Math.floor(Math.random() * allChars.length));
+                }
+                senhas.push(senha);
+            }
+
+            const output = document.getElementById('senhasGeradas');
+            output.innerHTML = '<h3>Senhas Geradas:</h3><ul>' + senhas.map(s => `<li>${s}</li>`).join('') + '</ul>';
+        }
+    </script>
+</head>
+<body onload="mostrarPagina('pagina0')">
+
+<div id="pagina0" class="container" style="display: block;">
+    <h1>Bem-vindo à Plataforma EduFácil</h1>
+    <p>Aprenda a proteger seus dados, criar senhas seguras e entender a importância da segurança digital.
+<br>
+    Aqui você encontrará recursos essenciais para fortalecer sua segurança online e como criar senhas fortes.
+<br>
+ Mantenha-se seguro e domine o mundo digital com conhecimento!
+ <br>
+ Comece já!
+</p>
+    
+
+    <button class="btn" onclick="mostrarPagina('pagina1')">Começar</button>
+</div>
+
+<div id="pagina1" class="container" style="display: none;">
+    <h1>1. O que é Segurança Digital?</h1>
+    <p>A segurança digital é um conjunto de práticas e tecnologias voltadas para proteger sistemas, redes e dados contra ataques, 
+        danos ou acessos não autorizados. Ela envolve o uso de ferramentas como firewalls, antivírus, criptografia e autenticação em 
+        múltiplos fatores. A segurança digital é vital em um mundo cada vez mais conectado, onde transações bancárias, informações pessoais 
+        e atividades sociais acontecem online.
+
+Ela protege não apenas dispositivos, mas também a integridade e a privacidade das pessoas,
+evitando o roubo de identidade, fraudes financeiras e vazamentos de dados sensíveis.</p>
+    <button class="btn" onclick="mostrarPagina('pagina2')">Próximo</button>
+</div>
+
+<div id="pagina2" class="container" style="display: none;">
+    <h1>2. Como criar senhas seguras?</h1>
+    <p> Senhas são a primeira linha de defesa contra acessos não autorizados. Uma senha segura dificulta a vida de hackers e bots, protegendo suas contas e seus dados.
+    <ul>
+        <li>Mínimo de 8 caracteres</li>
+        <li>Letras maiúsculas e minúsculas</li>
+        <li>Números e símbolos</li>
+        <li>Evitar datas ou nomes</li>
+        <li>Atualizar senhas regularmente</li>
+    </ul>
+    Considere usar um gerenciador de senhas para armazená-las com segurança.</p>
+    <button class="btn" onclick="mostrarPagina('pagina3')">Próximo</button>
+</div>
+
+<div id="pagina3" class="container" style="display: none;">
+    <h1>3. Evite golpes (phishing)</h1>
+    <p> Phishing é um tipo de golpe em que criminosos tentam enganar você para obter informações confidenciais como senhas, dados bancários ou CPF. Eles se passam por empresas ou pessoas conhecidas e usam links maliciosos em e-mails, SMS ou redes sociais.
+    <ul>
+        <li>Não clique em links suspeitos</li>
+        <li>Use autenticação em dois fatores</li>
+        <li>Verifique o remetente</li>
+        <li>Evite fornecer informações pessoais em formulários não verificados</li>
+        <li>Use antivírus com filtro anti-phishing</li>
+    </ul>
+    </p>
+    <button class="btn" onclick="mostrarPagina('pagina4')">Próximo</button>
+</div>
+
+<div id="pagina4" class="container" style="display: none;">
+    <h1>4. Backup é vida</h1>
+    <p>Backups são cópias de segurança dos seus dados mais importantes. Eles são essenciais para recuperar informações em casos de pane, roubo, vírus ou exclusão acidental.
+    <ul>
+        <li>Guarde cópias dos seus arquivos</li>
+        <li>Use nuvem ou pen drive</li>
+        <li>Faça backups regulares (diários ou semanais)</li>
+        <li>Verifique se os backups estão funcionando corretamente</li>
+    </ul>
+    </p>
+    <button class="btn" onclick="mostrarPagina('pagina5')">Próximo</button>
+</div>
+
+<div id="pagina5" class="container" style="display: none;">
+    <h1>5. Privacidade e LGPD</h1>
+    <p>A LGPD (Lei Geral de Proteção de Dados) regula o tratamento de dados pessoais no Brasil. Ela protege informações como nome, CPF, e-mail, localização, entre outros.
+    <ul>
+        <li>Você pode pedir para apagar seus dados</li>
+        <li>Exija saber como seus dados são usados</li>
+        <li>Ter seus dados tratados com segurança e finalidade específica</li>
+    </ul>
+    </p>
+    <button class="btn" onclick="mostrarPagina('pagina6')">Ir para Teste de Senha</button>
+</div>
+
+<div id="pagina6" class="container" style="display: none;">
+    <h2>Teste sua Senha</h2>
+    <input type="password" id="senha" placeholder="Digite sua senha">
+    <br><input type="checkbox" onclick="toggleSenha()"> Mostrar senha
+    <br><button class="btn" onclick="verificarSenha()">Verificar Segurança</button>
+    <div id="resultado"></div>
+    <button class="btn" onclick="mostrarPagina('pagina7')">Gerar Senhas Seguras</button>
+</div>
+
+<div id="pagina7" class="container" style="display: none;">
+    <h2>Gerador de Senhas Seguras</h2>
+    <label>Comprimento:</label>
+    <input type="number" id="length" min="8" max="32" value="12">
+    <label><input type="checkbox" id="uppercase" checked> Letras Maiúsculas</label>
+    <label><input type="checkbox" id="lowercase" checked> Letras Minúsculas</label>
+    <label><input type="checkbox" id="numbers" checked> Números</label>
+    <label><input type="checkbox" id="symbols" checked> Símbolos</label>
+    <button class="btn" onclick="gerarSenhas()">Gerar Senhas</button>
+    <div id="senhasGeradas"></div>
+    <button class="btn" onclick="mostrarPagina('pagina0')">🔁 Voltar ao Início</button>
+</div>
+
+</body>
+</html>
